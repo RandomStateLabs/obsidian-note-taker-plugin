@@ -6,35 +6,6 @@
     "name": "RandomStateLabs",
     "url": "https://github.com/RandomStateLabs/obsidian-note-taker"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/RandomStateLabs/obsidian-note-taker"
-  },
-  "license": "MIT",
-  "tags": [
-    "obsidian",
-    "notes",
-    "knowledge-management",
-    "markdown",
-    "zettelkasten",
-    "productivity",
-    "documentation"
-  ],
-  "components": {
-    "agents": [
-      "note-organizer",
-      "vault-analyzer"
-    ],
-    "commands": [
-      "create-note",
-      "organize-vault",
-      "validate-notes"
-    ],
-    "skills": [
-      "obsidian-note-taker"
-    ]
-  },
-  "requirements": {
-    "python": ">=3.7"
-  }
+  "repository": "https://github.com/RandomStateLabs/obsidian-note-taker",
+  "license": "MIT"
 }
