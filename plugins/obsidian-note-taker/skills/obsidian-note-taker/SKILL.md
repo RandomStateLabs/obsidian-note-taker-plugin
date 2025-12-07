@@ -289,7 +289,22 @@ Here's your formatted Obsidian note:
 Would you like me to adjust anything?
 ```
 
-## Saving to Obsidian Vault
+## Extending Existing Notes
+
+When search finds 70%+ overlap, extend the existing note instead of creating a duplicate.
+
+### Workflow for Extending
+1. Read the existing note with `obsidian_get_file_contents`
+2. Identify what new insights to add
+3. **Use `append` (recommended)** - simpler and more reliable:
+   ```
+   mcp__MCP_DOCKER__obsidian_append_content(
+       filepath="[existing note path]",
+       content="\n\n## New Section Title\n\n[new content here]"
+   )
+   ```
+
+## Saving New Notes to Vault
 
 1. **Ask first**: "Would you like me to save this note?"
 2. **If confirmed**, save:
@@ -313,4 +328,4 @@ For complex requirements, see `references/templates.md` and `references/folder-s
 | `mcp__obsidian-mcp-tools__search_vault_smart` | Semantic search (primary) |
 | `mcp__MCP_DOCKER__obsidian_simple_search` | Keyword search (plain text only, NO hashtags) |
 | `mcp__MCP_DOCKER__obsidian_get_file_contents` | Read existing note |
-| `mcp__MCP_DOCKER__obsidian_append_content` | Save new note |
+| `mcp__MCP_DOCKER__obsidian_append_content` | Save new note OR extend existing |
