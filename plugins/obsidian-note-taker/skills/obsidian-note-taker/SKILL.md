@@ -58,11 +58,22 @@ This is the most important step. Duplicating existing content creates mess and d
 Use smart/semantic search to find conceptually related notes (not just keyword matches):
 
 ```
-mcp__MCP_DOCKER__obsidian_search_vault_smart(
+mcp__obsidian-mcp-tools__search_vault_smart(
     query="[describe the core idea/concept in natural language]",
     filter={"limit": 10}
 )
 ```
+
+#### ⚠️ CRITICAL: Report Tool Failures
+
+**NEVER silently proceed if a search tool fails or returns empty results.**
+
+If ANY MCP tool:
+- Returns an error → Tell the user: "The semantic search tool returned an error: [error message]. I'll try the keyword search instead."
+- Returns empty results → Tell the user: "The search returned no results for '[query]'. This could mean no related notes exist, or I may need to try different search terms."
+- Is unavailable → Tell the user: "The [tool name] is not available. I cannot complete the search-before-create workflow without it."
+
+**Why this matters**: Silent failures led to duplicate notes being created. The user needs to know when the safety checks aren't working.
 
 #### Step 2b: Keyword Search as Backup
 
@@ -74,6 +85,12 @@ mcp__MCP_DOCKER__obsidian_simple_search(
     context_length=100
 )
 ```
+
+**⚠️ IMPORTANT: Query Format for Simple Search**
+- Use **plain text keywords** - NOT hashtag syntax
+- ✅ Correct: `query="claude code plugin"` or `query="semantic search"`
+- ❌ Wrong: `query="#claude-code OR #plugin"` (hashtags return empty results)
+- For multiple terms, use space separation: `query="architecture microservices design"`
 
 #### Step 2c: Analyze Search Results - DECISION TREE
 
@@ -170,7 +187,7 @@ This keeps links natural in sentences:
 **After drafting the note content, search for related notes to link:**
 
 ```
-mcp__MCP_DOCKER__obsidian_search_vault_smart(
+mcp__obsidian-mcp-tools__search_vault_smart(
     query="[main concept of your note]",
     filter={"limit": 5}
 )
@@ -245,12 +262,14 @@ The goal is NOT to prevent new tags - it's to prevent **duplicate variations** o
 Before assigning ANY tag, search the vault for existing tags:
 
 ```
-# Search for notes with similar tags to see what exists
+# Search for notes that might use similar tags
 mcp__MCP_DOCKER__obsidian_simple_search(
-    query="#claude OR #ai OR #[relevant-term]",
+    query="claude ai plugin",
     context_length=50
 )
 ```
+
+**⚠️ Query Format**: Use plain keywords, NOT hashtag syntax. The search will find notes containing these terms, which you can then examine for their tags.
 
 Or use complex search to find all tags in a domain:
 ```
@@ -485,12 +504,14 @@ For complex requirements, see:
 
 ### Semantic Search (Primary - Use First)
 ```
-mcp__MCP_DOCKER__obsidian_search_vault_smart(
+mcp__obsidian-mcp-tools__search_vault_smart(
     query="natural language description of concept",
     filter={"limit": 10, "folders": ["1 - Main Notes"]}  # optional folder filter
 )
 ```
 Returns semantically similar notes even if they don't share exact keywords.
+
+**Note**: This uses the `obsidian-mcp-tools` MCP server, not `MCP_DOCKER`.
 
 ### Simple Search (Secondary - Keyword Matching)
 ```
@@ -500,6 +521,10 @@ mcp__MCP_DOCKER__obsidian_simple_search(
 )
 ```
 Returns notes containing the exact keywords.
+
+**⚠️ Query Format**: Use plain text keywords only.
+- ✅ `query="claude code plugin"`
+- ❌ `query="#claude-code OR #plugin"` (hashtags don't work)
 
 ### Get File Contents (For Reviewing Found Notes)
 ```

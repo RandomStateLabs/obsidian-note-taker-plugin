@@ -43,17 +43,29 @@ tags:
 
    ```
    # First: Semantic search for conceptually similar notes
-   mcp__MCP_DOCKER__obsidian_search_vault_smart(
+   mcp__obsidian-mcp-tools__search_vault_smart(
        query="[describe the concept in natural language]",
        filter={"limit": 10}
    )
 
    # Second: Keyword search for specific terms
    mcp__MCP_DOCKER__obsidian_simple_search(
-       query="[key terms]",
+       query="[key terms as plain text]",
        context_length=100
    )
    ```
+
+   **⚠️ Query Format for Simple Search:**
+   - Use plain text keywords, NOT hashtag syntax
+   - ✅ Correct: `query="claude code plugin"`
+   - ❌ Wrong: `query="#claude-code OR #plugin"` (returns empty)
+
+   **⚠️ CRITICAL: Report Tool Failures**
+
+   **NEVER silently proceed if a search fails.** Always tell the user:
+   - If tool returns error: "The [tool] returned an error: [message]. Trying alternative..."
+   - If results are empty: "Search returned no results for '[query]'. This could mean no related notes exist, or I should try different terms."
+   - If tool unavailable: "The [tool] is unavailable. Cannot complete the search-before-create safety check."
 
    **Decision Tree based on results:**
    | Finding | Action |
@@ -68,10 +80,12 @@ tags:
    Before assigning tags, search for what already exists in the vault:
    ```
    mcp__MCP_DOCKER__obsidian_simple_search(
-       query="#claude OR #ai OR #[relevant-term]",
+       query="claude ai plugin",
        context_length=50
    )
    ```
+
+   **⚠️ Query Format**: Use plain keywords (NOT hashtags). The search finds notes containing these terms - examine them for their existing tags.
 
    **Rules:**
    - Use EXACT existing tags (if vault has `#claude-code`, use that, not `#claude_code`)
