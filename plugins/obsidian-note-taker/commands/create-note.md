@@ -130,10 +130,12 @@ tags:
    - Point 2
 
    ## Details
-   [Main content with contextual [[wikilinks|links]] inline]
+   [Main content - link ONLY to notes confirmed to exist via search.
+   Use [[Note|alias]] only for existing notes. Use plain text for concepts
+   without dedicated notes.]
 
    ## Related Notes
-   - [[Related Note]] - explanation of how it relates
+   - [[Existing Note]] - explanation of how it relates (only link to notes found in search)
    ```
 
 7. **Folder Placement**
@@ -199,7 +201,7 @@ tags:
 9. **Select 2-4 content tags** - from existing vault tags or properly formatted new ones
 10. **Folder is ALWAYS `1 - Main Notes/`**
 11. **One idea per note** - keep notes atomic
-12. **Link with context** - use `[[Note|display text]]` and explain relationships
+12. **Link only to existing notes** - verify via search first; use `[[Note|alias]]` ONLY for notes that exist; use plain text for concepts without dedicated notes
 
 ## Example Usage
 

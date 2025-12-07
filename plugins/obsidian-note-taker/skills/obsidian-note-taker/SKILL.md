@@ -156,17 +156,31 @@ Use the appropriate template from `references/templates.md` based on note type.
 
 #### Using Pipe Aliases for Natural Linking
 
-Use the pipe character `|` to customize how links display:
+**⚠️ CRITICAL: Only use pipe aliases for notes that ALREADY EXIST in the vault.**
+
+Use the pipe character `|` to customize how links display - but ONLY for existing notes:
 
 ```markdown
+# ✅ CORRECT - Note exists in vault, pipe alias for natural prose:
 [[Personal Knowledge Management|PKM]]           → displays as "PKM"
 [[Semantic Search|semantically searching]]      → grammatically correct in prose
-[[Authentication Strategy|our auth approach]]   → context-specific reference
+
+# ❌ WRONG - Note doesn't exist, pipe alias creates confusion:
+[[Future Note Title|some alias]]                → misleading, creates dead link with wrong display
+
+# ✅ CORRECT - Note doesn't exist, use exact title or plain text:
+[[Future Note Title]]                           → creates note with correct title if clicked
+Zettelkasten principles                         → plain text, no link (preferred if note doesn't exist)
 ```
 
-This keeps links natural in sentences:
-- "We use [[Semantic Search|semantic search]] to find related notes"
-- "This follows [[Zettelkasten Method|Zettelkasten]] principles"
+**Why this matters:**
+- Pipe aliases on non-existent notes create "dead links" with mismatched display text
+- If user clicks `[[My Note|different text]]` and note doesn't exist, Obsidian creates "My Note" - but the display showed "different text"
+- This causes confusion and maintenance burden
+
+**Rule**: Before using `[[Note|alias]]`, verify the note exists via search. If it doesn't exist, either:
+1. Use plain text (no wikilink) - preferred for concepts without dedicated notes
+2. Use exact title without pipe: `[[Exact Note Title]]`
 
 #### Contextual Links (Preferred)
 
@@ -222,8 +236,9 @@ tags:
 - Point 3
 
 ## Details
-[Main content - expand on key points. Include contextual wikilinks
-to related concepts: "This builds on [[Related Concept|the concept]]..."]
+[Main content - expand on key points. Include wikilinks to EXISTING
+related notes: "This builds on [[Existing Note Title]]..." Only use
+pipe aliases like [[Note|alias]] if the note already exists in vault.]
 
 ## Related Notes
 - [[Related Note 1]] - brief explanation of how it relates
@@ -353,7 +368,9 @@ Before presenting the note:
 
 ### Linking Checks
 - [ ] Content follows template structure
-- [ ] Wikilinks properly formatted (use `|` for display text where helpful)
+- [ ] Wikilinks only to EXISTING notes (verified via search)
+- [ ] Pipe aliases `[[Note|alias]]` ONLY used for notes confirmed to exist
+- [ ] Non-existent concepts use plain text or exact title without pipe
 - [ ] Related Notes include context explaining relationships
 - [ ] Folder is `1 - Main Notes/`
 
@@ -474,10 +491,10 @@ For a note titled "Testing MCP Integration":
 ### How to Avoid Duplication
 
 1. **Always search first** - This is non-negotiable
-2. **Link, don't repeat** - If content exists, link to it with `[[Note|display text]]`
+2. **Link, don't repeat** - If content exists, link to it (use `[[Note|alias]]` only if note exists, otherwise `[[Note]]` or plain text)
 3. **Extend, don't duplicate** - Add new info to existing notes when appropriate
 4. **Be specific** - New notes should only contain genuinely novel content
-5. **Use contextual references** - Instead of repeating content, write "As explained in [[Other Note]], ..."
+5. **Use contextual references** - Instead of repeating content, write "As explained in [[Other Note]], ..." (only if that note exists)
 
 ### When Finding Similar Content
 
