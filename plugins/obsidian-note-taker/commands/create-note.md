@@ -138,6 +138,12 @@ tags:
    - [[Existing Note]] - explanation of how it relates (only link to notes found in search)
    ```
 
+   **⚠️ CRITICAL: Related Notes MUST contain actual `[[wikilinks]]`**
+   - Search for related notes using `mcp__obsidian-mcp-tools__search_vault_smart`
+   - Populate Related Notes with `[[Actual Note Titles]]` found in search
+   - NEVER use plain text like "Related concepts: X, Y, Z"
+   - If no related notes found: "No related notes found in vault."
+
 7. **Folder Placement**
    ALL AI-generated notes go to: **`1 - Main Notes/`**
 
@@ -202,6 +208,7 @@ tags:
 10. **Folder is ALWAYS `1 - Main Notes/`**
 11. **One idea per note** - keep notes atomic
 12. **Link only to existing notes** - verify via search first; use `[[Note|alias]]` ONLY for notes that exist; use plain text for concepts without dedicated notes
+13. **Related Notes MUST have actual backlinks** - search for related notes and use `[[wikilinks]]`, NEVER plain text descriptions
 
 ## Example Usage
 

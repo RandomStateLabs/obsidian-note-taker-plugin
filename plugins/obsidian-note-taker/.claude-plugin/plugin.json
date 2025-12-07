@@ -1,7 +1,7 @@
 {
   "name": "obsidian-note-taker",
   "description": "Create well-formatted Obsidian notes with proper frontmatter, templates, and organization",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "author": {
     "name": "RandomStateLabs",
     "url": "https://github.com/RandomStateLabs/obsidian-note-taker"
