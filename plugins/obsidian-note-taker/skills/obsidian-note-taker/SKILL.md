@@ -20,6 +20,8 @@ tags:
   - ai-generated      # REQUIRED - always first tag
   - topic-tag-1       # 2-4 content-relevant tags (these count toward limit)
   - topic-tag-2
+last_ai_edit: YYYY-MM-DD    # Date AI created/edited this note
+last_human_edit:            # Empty until human reviews/edits
 ---
 ```
 
@@ -203,6 +205,8 @@ tags:
   - ai-generated
   - [topic-tag-1]
   - [topic-tag-2]
+last_ai_edit: YYYY-MM-DD
+last_human_edit:
 ---
 
 # [Title - preferably as assertion or clear concept]
@@ -229,6 +233,8 @@ pipe aliases like [[Note|alias]] if the note already exists in vault.]
 - `status: capture` and `type: note` are ALWAYS fixed
 - `ai-generated` tag is ALWAYS first
 - Add 2-4 content-relevant tags after `ai-generated`
+- `last_ai_edit` is ALWAYS set to today's date
+- `last_human_edit` is ALWAYS left empty (human fills this in)
 - Related Notes should include context explaining the relationship
 
 ## File Naming Convention
@@ -267,6 +273,8 @@ pipe aliases like [[Note|alias]] if the note already exists in vault.]
 - [ ] `status: capture`, `type: note` (ALWAYS)
 - [ ] `ai-generated` tag first, then 2-4 content tags
 - [ ] Tags: hyphens, lowercase, singular (NEVER underscores)
+- [ ] `last_ai_edit` set to today's date
+- [ ] `last_human_edit` left empty
 
 ### Content
 - [ ] ONE idea per note (atomic)
@@ -296,13 +304,61 @@ When search finds 70%+ overlap, extend the existing note instead of creating a d
 ### Workflow for Extending
 1. Read the existing note with `obsidian_get_file_contents`
 2. Identify what new insights to add
-3. **Use `append` (recommended)** - simpler and more reliable:
+3. **Update `last_ai_edit` in frontmatter** to today's date (signals unreviewed AI content)
+4. **Use `append` (recommended)** - simpler and more reliable:
    ```
    mcp__MCP_DOCKER__obsidian_append_content(
        filepath="[existing note path]",
        content="\n\n## New Section Title\n\n[new content here]"
    )
    ```
+
+### Provenance When Extending
+
+When you extend an existing note, you MUST also update the `last_ai_edit` field:
+
+```
+mcp__MCP_DOCKER__obsidian_patch_content(
+    filepath="[existing note path]",
+    operation="replace",
+    target_type="frontmatter",
+    target="last_ai_edit",
+    content="YYYY-MM-DD"
+)
+```
+
+**Why?** If `last_ai_edit` is newer than `last_human_edit`, the user knows there's unreviewed AI content in the note.
+
+## Provenance Tracking (AI vs Human Edits)
+
+The `last_ai_edit` and `last_human_edit` fields track who touched the note last:
+
+| Situation | What It Means |
+|-----------|---------------|
+| `last_human_edit` is empty | User hasn't reviewed this note yet |
+| `last_human_edit` < `last_ai_edit` | AI added content user hasn't reviewed |
+| `last_human_edit` >= `last_ai_edit` | User has reviewed all AI content |
+
+### How Users Mark Notes as Reviewed
+
+When a user edits or reviews a note, they update `last_human_edit` to today's date. Options:
+
+1. **Manual**: Edit the frontmatter field directly
+2. **Templater hotkey**: User can set up a hotkey to auto-update the field
+3. **Tell AI**: User says "I reviewed [note name]" and AI updates it via MCP
+
+### AI Updating Human Edit Date (When Asked)
+
+If user says they reviewed a note:
+```
+mcp__MCP_DOCKER__obsidian_patch_content(
+    filepath="[note path]",
+    operation="replace",
+    target_type="frontmatter",
+    target="last_human_edit",
+    content="YYYY-MM-DD"
+)
+```
 
 ## Saving New Notes to Vault
 
